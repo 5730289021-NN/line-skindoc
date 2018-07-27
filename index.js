@@ -77,11 +77,15 @@ function handleImage(message, replyToken) {
                     url: 'https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/1f32e321-220b-4dca-a709-5be05765d185/image?iterationId=f020026a-5afd-4cd1-a2e6-fe363063caad',
                     body: content
                 }, function (error, response, body) {
-                    console.log(body);
-                    return replyText(replyToken, body);
+                    body = JSON.parse(body)
+                    let output = body.predictions[0]
+                    console.log(output);
+                    output = JSON.stringify(output)
+                    output = `${body.predictions[0].tagName} ${body.predictions[0].probability*100}\n${body.predictions[1].tagName} ${body.predictions[1].probability*100} `
+                    return replyText(replyToken, output);
                 });          // Or put the next step in a function and invoke it
             });
-            
+
         });
 }
 
